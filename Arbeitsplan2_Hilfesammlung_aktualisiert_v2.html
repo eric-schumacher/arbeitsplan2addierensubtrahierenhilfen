@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hilfesammlung – Arbeitsplan 2</title>
+  <style>
+    :root {
+      --background: #f5e8b4;
+      --card: #ffffff;
+      --text: #111111;
+      --border: #242424;
+      --shadow: 0 14px 24px rgba(0, 0, 0, 0.11);
+      --button-max-width: 840px;
+      --panel: rgba(255, 255, 255, 0.74);
+      --accent: #d8bf58;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    button, a { font: inherit; }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 42px 24px 70px;
+      position: relative;
+    }
+
+    .page.active { display: block; }
+
+    .content {
+      width: min(100%, 980px);
+      margin: 0 auto;
+    }
+
+    .main-title {
+      margin: 0 auto 28px;
+      text-align: center;
+      font-size: clamp(2rem, 4.5vw, 3.45rem);
+      line-height: 1.06;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .chapter-title {
+      margin: 18px auto 34px;
+      padding: 0 120px;
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .button-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .menu-button,
+    .task-button,
+    .video-button,
+    .reveal-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(100%, var(--button-max-width));
+      min-height: 88px;
+      padding: 18px 28px;
+      border: 2px solid var(--border);
+      border-radius: 26px;
+      background: var(--card);
+      color: var(--text);
+      font-size: clamp(1.2rem, 2.3vw, 1.65rem);
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+
+    .menu-button:hover,
+    .task-button:hover,
+    .video-button:hover,
+    .reveal-button:hover,
+    .top-back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 28px rgba(0, 0, 0, 0.15);
+      background: #fffef9;
+    }
+
+    .menu-button:active,
+    .task-button:active,
+    .video-button:active,
+    .reveal-button:active,
+    .top-back-button:active { transform: translateY(0); }
+
+    .menu-button:focus-visible,
+    .task-button:focus-visible,
+    .video-button:focus-visible,
+    .reveal-button:focus-visible,
+    .top-back-button:focus-visible {
+      outline: 4px solid rgba(0, 0, 0, 0.25);
+      outline-offset: 4px;
+    }
+
+    .task-button,
+    .video-button {
+      min-height: 78px;
+      font-size: clamp(1.08rem, 2vw, 1.42rem);
+    }
+
+    .video-button::before {
+      content: "▶";
+      margin-right: 12px;
+      font-size: 0.9em;
+    }
+
+    .top-back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 5;
+      min-height: 48px;
+      padding: 10px 18px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.10);
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+
+    .task-card {
+      width: min(100%, 840px);
+      margin: 0 auto 24px;
+      padding: clamp(24px, 4vw, 40px);
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .task-label {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .task-prompt {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.7vw, 1.9rem);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .help-stack {
+      width: min(100%, 840px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .reveal-button {
+      min-height: 68px;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+    }
+
+    .help-panel {
+      display: none;
+      width: 100%;
+      margin-top: -4px;
+      padding: 22px 26px;
+      border: 2px solid rgba(36, 36, 36, 0.75);
+      border-radius: 22px;
+      background: var(--panel);
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      line-height: 1.55;
+      text-align: left;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .help-panel.open { display: block; }
+
+    .solution-panel {
+      text-align: center;
+      font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+      font-weight: 900;
+    }
+
+    .calculation {
+      width: fit-content;
+      max-width: 100%;
+      margin: 14px auto;
+      padding: 14px 20px;
+      overflow-x: auto;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.86);
+      font-family: "Courier New", Courier, monospace;
+      font-size: clamp(1.15rem, 2.6vw, 1.7rem);
+      line-height: 1.25;
+      text-align: left;
+      white-space: pre;
+    }
+
+    .math-line {
+      margin: 12px 0;
+      text-align: center;
+      font-size: 1.12em;
+      font-weight: 800;
+    }
+
+    .calculation-steps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.4;
+    }
+
+    .calculation-steps span {
+      display: block;
+      width: 100%;
+    }
+
+    .problem-list {
+      width: min(100%, 650px);
+      margin: 18px auto 0;
+      display: grid;
+      gap: 10px;
+      text-align: left;
+      font-size: 0.95em;
+    }
+
+    .problem-list.two-columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 28px;
+    }
+
+    .small-note {
+      margin: 16px 0 0;
+      font-size: 0.8em;
+      font-weight: 600;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 18px auto;
+    }
+
+    .data-table {
+      width: min(100%, 520px);
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: #fffdf5;
+      font-size: 0.9em;
+    }
+
+    .data-table th,
+    .data-table td {
+      border: 2px solid #444;
+      padding: 8px 16px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background: #f2df91;
+    }
+
+    .network {
+      width: min(100%, 680px);
+      margin: 26px auto 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: clamp(0.95rem, 2vw, 1.25rem);
+    }
+
+    .network-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 90px 1fr 90px;
+      align-items: center;
+      justify-items: center;
+      gap: 8px;
+    }
+
+    .network-row:nth-child(2) {
+      grid-template-columns: 90px 1fr 90px 1fr 90px;
+    }
+
+    .number-box {
+      display: inline-flex;
+      width: 78px;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .number-box.given {
+      background: #f2df91;
+    }
+
+    .arrow,
+    .down {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .down:nth-child(1) { grid-column: 1; }
+    .down:nth-child(2) { grid-column: 3; }
+    .down:nth-child(3) { grid-column: 5; }
+
+    .rule-box {
+      width: min(100%, 700px);
+      margin: 0 auto 22px;
+      padding: 20px 24px;
+      border: 3px solid #5ca7c5;
+      border-radius: 18px;
+      background: #dff1f8;
+      text-align: left;
+      font-size: 0.9em;
+      line-height: 1.55;
+    }
+
+    .bar-chart {
+      width: min(100%, 720px);
+      height: 300px;
+      margin: 28px auto 16px;
+      padding: 28px 12px 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 12px;
+      border-left: 3px solid #333;
+      border-bottom: 3px solid #333;
+      background:
+        repeating-linear-gradient(
+          to top,
+          transparent 0,
+          transparent 57px,
+          rgba(0,0,0,0.12) 58px,
+          rgba(0,0,0,0.12) 59px
+        );
+    }
+
+    .bar-item {
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 88px;
+    }
+
+    .bar {
+      width: min(76%, 78px);
+      min-height: 30px;
+      border: 2px solid #796f32;
+      border-bottom: 0;
+      background: #e2d065;
+    }
+
+    .bar-value {
+      margin-bottom: 6px;
+      font-size: clamp(0.68rem, 1.4vw, 0.92rem);
+      font-weight: 800;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      max-height: 85px;
+    }
+
+    .bar-year {
+      margin-top: 8px;
+      margin-bottom: -28px;
+      font-size: 0.78em;
+      font-weight: 800;
+    }
+
+
+    .exact-chart-wrap {
+      width: min(100%, 760px);
+      margin: 24px auto 12px;
+      padding: 16px 18px 12px;
+      border-radius: 18px;
+      background: #fffef8;
+    }
+
+    .exact-chart-title {
+      margin: 0 0 4px 72px;
+      text-align: left;
+      font-size: 0.72em;
+      font-weight: 900;
+    }
+
+    .exact-chart {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      height: 330px;
+      font-size: clamp(0.72rem, 1.35vw, 0.95rem);
+    }
+
+    .y-axis {
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-right: 8px;
+      font-weight: 700;
+    }
+
+    .plot-area {
+      position: relative;
+      height: 280px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 12px;
+      padding: 0 18px;
+      border-left: 2px solid #333;
+      border-bottom: 2px solid #333;
+    }
+
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to top,
+        transparent 0,
+        transparent calc(14.2857% - 1px),
+        rgba(0, 0, 0, 0.18) calc(14.2857% - 1px),
+        rgba(0, 0, 0, 0.18) 14.2857%
+      );
+      pointer-events: none;
+    }
+
+    .exact-bar-item {
+      position: relative;
+      z-index: 1;
+      width: 16%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .exact-bar {
+      position: relative;
+      width: min(78%, 74px);
+      min-height: 20px;
+      border: 1px solid #b6c644;
+      background: #dbe879;
+    }
+
+    .exact-bar span {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      writing-mode: vertical-rl;
+      font-size: 0.9em;
+      font-weight: 900;
+      color: #9caf27;
+    }
+
+    .exact-year {
+      position: absolute;
+      top: calc(100% + 8px);
+      font-weight: 800;
+    }
+
+    .year-label {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      font-weight: 800;
+    }
+
+    .exact-book-questions {
+      margin-top: 36px;
+    }
+
+    .orientation-warning {
+      display: none;
+      min-height: 100vh;
+      padding: 28px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .orientation-warning-box {
+      width: min(92vw, 620px);
+      padding: 34px 28px;
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .orientation-warning-icon {
+      display: block;
+      margin-bottom: 18px;
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .orientation-warning h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 7vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .orientation-warning p {
+      margin: 0;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      line-height: 1.45;
+    }
+
+    @media (orientation: portrait) {
+      main { display: none; }
+      .orientation-warning { display: flex; }
+    }
+
+    @media (orientation: landscape) {
+      main { display: block; }
+      .orientation-warning { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 86px 16px 48px; }
+      #startseite.page { padding-top: 34px; }
+      .chapter-title { padding: 0; margin-top: 0; }
+      .top-back-button { top: 16px; left: 16px; }
+      .menu-button, .task-button, .video-button {
+        min-height: 74px;
+        padding: 16px 20px;
+        border-radius: 22px;
+      }
+      .button-list { gap: 15px; }
+      .task-card { border-radius: 22px; }
+      .help-panel { padding: 18px 20px; }
+      .problem-list.two-columns { grid-template-columns: 1fr; }
+      .network { transform: scale(0.82); transform-origin: top center; margin-bottom: -25px; }
+      .bar-chart { height: 245px; gap: 5px; }
+      .bar-item { min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="orientation-warning" role="status" aria-live="polite">
+    <div class="orientation-warning-box">
+      <span class="orientation-warning-icon" aria-hidden="true">↻</span>
+      <h1>Bitte ins Querformat drehen</h1>
+      <p>Diese Hilfesammlung wird nur im Querformat angezeigt.</p>
+    </div>
+  </aside>
+
+  <main>
+    <section id="startseite" class="page active" aria-labelledby="starttitel">
+      <div class="content">
+        <h1 id="starttitel" class="main-title">
+          Hilfesammlung für Arbeitsplan 2 –<br />
+          Addieren und Subtrahieren
+        </h1>
+
+        <div class="button-list" aria-label="Kapitel auswählen">
+          <button class="menu-button" type="button" data-target="kopfrechnen">Kopfrechnen</button>
+          <button class="menu-button" type="button" data-target="schriftliches-addieren">schriftliches Addieren</button>
+          <button class="menu-button" type="button" data-target="schriftliches-subtrahieren">schriftliches Subtrahieren</button>
+          <button class="menu-button" type="button" data-target="klammern">Klammern</button>
+          <button class="menu-button" type="button" data-target="rechengesetze">Rechengesetze</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="kopfrechnen" class="page chapter-page" aria-labelledby="titel-kopfrechnen">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="titel-kopfrechnen" class="chapter-title">Kopfrechnen</h2>
+        <div class="button-list">
+          <button class="task-button" type="button" data-task="kopf-6">S. 55 Nr. 6 links</button>
+          <button class="task-button" type="button" data-task="kopf-8">S. 55 Nr. 8 links</button>
+          <button class="task-button" type="button" data-task="kopf-9">S. 55 Nr. 9 links</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="schriftliches-addieren" class="page chapter-page" aria-labelledby="titel-addieren">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="titel-addieren" class="chapter-title">schriftliches Addieren</h2>
+        <div class="button-list">
+          <a class="video-button" href="https://www.youtube.com/watch?v=tEBKFoD9LeI" target="_blank" rel="noopener noreferrer">Hilfevideo</a>
+          <button class="task-button" type="button" data-task="add-5-links">S. 57 Nr. 5 links</button>
+          <button class="task-button" type="button" data-task="add-4-rechts">S. 57 Nr. 4 rechts</button>
+          <button class="task-button" type="button" data-task="add-10a-links">S. 58 Nr. 10a links</button>
+          <button class="task-button" type="button" data-task="add-8-rechts">S. 58 Nr. 8 rechts</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="schriftliches-subtrahieren" class="page chapter-page" aria-labelledby="titel-subtrahieren">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="titel-subtrahieren" class="chapter-title">schriftliches Subtrahieren</h2>
+        <div class="button-list">
+          <a class="video-button" href="https://www.youtube.com/watch?v=U7H76rpe1p8" target="_blank" rel="noopener noreferrer">Hilfevideo</a>
+          <button class="task-button" type="button" data-task="sub-3-rechts">S. 61 Nr. 3 rechts</button>
+          <button class="task-button" type="button" data-task="sub-5-links">S. 61 Nr. 5 links</button>
+          <button class="task-button" type="button" data-task="sub-8-links">S. 62 Nr. 8 links</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="klammern" class="page chapter-page" aria-labelledby="titel-klammern">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="titel-klammern" class="chapter-title">Klammern</h2>
+        <div class="button-list">
+          <a class="video-button" href="https://www.youtube.com/watch?v=b5-s_d5ZimM" target="_blank" rel="noopener noreferrer">Hilfevideo</a>
+          <button class="task-button" type="button" data-task="klammer-regeln">S. 64 – Blauen Kasten bis Beispiel d) lesen</button>
+          <button class="task-button" type="button" data-task="klammer-6-links">S. 65 Nr. 6 links</button>
+          <button class="task-button" type="button" data-task="klammer-5-rechts">S. 65 Nr. 5 rechts</button>
+          <button class="task-button" type="button" data-task="klammer-10-links">S. 66 Nr. 10 links</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="rechengesetze" class="page chapter-page" aria-labelledby="titel-rechengesetze">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="titel-rechengesetze" class="chapter-title">Rechengesetze</h2>
+        <div class="button-list">
+          <a class="video-button" href="https://www.youtube.com/watch?v=YZOuuN7baHM" target="_blank" rel="noopener noreferrer">Hilfevideo</a>
+          <button class="task-button" type="button" data-task="gesetz-4-rechts">S. 68 Nr. 4 rechts</button>
+          <button class="task-button" type="button" data-task="gesetz-5-rechts">S. 68 Nr. 5 rechts</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="aufgabe" class="page" aria-labelledby="task-title">
+      <button class="top-back-button" type="button">← Zurück</button>
+      <div class="content">
+        <h2 id="task-title" class="chapter-title">Aufgabe</h2>
+
+        <article class="task-card">
+          <p id="task-label" class="task-label">Beispielaufgabe</p>
+          <div id="task-prompt" class="task-prompt"></div>
+        </article>
+
+        <div class="help-stack">
+          <button class="reveal-button" type="button" data-panel="help-1" aria-expanded="false">Hilfe 1</button>
+          <div id="help-1" class="help-panel"></div>
+
+          <button class="reveal-button" type="button" data-panel="help-2" aria-expanded="false">Hilfe 2</button>
+          <div id="help-2" class="help-panel"></div>
+
+          <button class="reveal-button" type="button" data-panel="solution" aria-expanded="false">Lösung</button>
+          <div id="solution" class="help-panel solution-panel"></div>
+
+          <button class="reveal-button" type="button" data-panel="model-solution" aria-expanded="false">Musterlösung</button>
+          <div id="model-solution" class="help-panel"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tasks = {
+  "kopf-6": {
+    "title": "S. 55 Nr. 6 links – Kopfrechnen",
+    "label": "Beispielaufgabe",
+    "prompt": "Übersetze die Sätze in Rechenaufgaben und rechne im Kopf:<div class='problem-list'><div><strong>a)</strong> Addiere 27 und 46.</div><div><strong>b)</strong> Um wie viel ist 48 kleiner als 83?</div><div><strong>c)</strong> Wie viel ist 71 mehr als 29?</div></div>",
+    "help1": "Achte auf die Signalwörter: <strong>addiere</strong> und <strong>mehr als</strong> bedeuten Plus. Bei „um wie viel kleiner“ suchst du den Unterschied und rechnest Minus.",
+    "help2": "Schreibe zunächst die passenden Aufgaben auf:<div class='math-line calculation-steps'><span>a) 27 + 46</span><span>b) 83 − 48</span><span>c) 29 + 71</span></div>Zerlege anschließend eine Zahl in Zehner und Einer.",
+    "solution": "a) 73 &nbsp;&nbsp; b) 35 &nbsp;&nbsp; c) 100",
+    "model": "<div class='math-line calculation-steps'><span><strong>a)</strong> 27 + 46</span><span>= 27 + 40 + 6</span><span>= 67 + 6</span><span>= <strong>73</strong></span></div><div class='math-line calculation-steps'><span><strong>b)</strong> 83 − 48</span><span>= 83 − 40 − 8</span><span>= 43 − 8</span><span>= <strong>35</strong></span></div><div class='math-line calculation-steps'><span><strong>c)</strong> 29 + 71</span><span>= <strong>100</strong></span></div>Zuerst musst du aus dem Satz die richtige Rechenart erkennen. Danach kannst du die Zahlen sinnvoll zerlegen."
+  },
+  "kopf-8": {
+    "title": "S. 55 Nr. 8 links – Kopfrechnen mit Lücken",
+    "label": "Beispielaufgabe",
+    "prompt": "Ergänze die Lücken:<div class='problem-list two-columns'><div><strong>a)</strong> 27 + 35 = □</div><div><strong>b)</strong> 83 − 47 = □</div><div><strong>c)</strong> 56 + □ = 90</div><div><strong>d)</strong> 74 − □ = 28</div><div><strong>e)</strong> □ + 29 = 61</div><div><strong>f)</strong> □ − 38 = 17</div></div>",
+    "help1": "Bei einer Lückenaufgabe kannst du die <strong>Gegenaufgabe</strong> nutzen. Aus Plus wird Minus und aus Minus kann Plus werden.",
+    "help2": "Beispiele für die Gegenaufgabe:<div class='math-line calculation-steps'><span>56 + □ = 90 → 90 − 56 = □</span><span>74 − □ = 28 → 74 − 28 = □</span><span>□ − 38 = 17 → 17 + 38 = □</span></div>",
+    "solution": "a) 62 &nbsp; b) 36 &nbsp; c) 34 &nbsp; d) 46 &nbsp; e) 32 &nbsp; f) 55",
+    "model": "<div class='calculation-steps'><span>a) 27 + 35 = <strong>62</strong></span><span>b) 83 − 47 = <strong>36</strong></span><span>c) 90 − 56 = <strong>34</strong></span><span>d) 74 − 28 = <strong>46</strong></span><span>e) 61 − 29 = <strong>32</strong></span><span>f) 17 + 38 = <strong>55</strong></span></div>"
+  },
+  "kopf-9": {
+    "title": "S. 55 Nr. 9 links – Bis zur nächsten Stufenzahl",
+    "label": "Beispielaufgabe",
+    "prompt": "Wie viel fehlt noch bis zur nächstgrößeren Stufenzahl?<div class='problem-list'><div><strong>a)</strong> 47</div><div><strong>b)</strong> 286</div><div><strong>c)</strong> 995</div></div><p class='small-note'>Stufenzahlen sind zum Beispiel 10, 100, 1000 oder 10&nbsp;000.</p>",
+    "help1": "Überlege zuerst, welche Stufenzahl direkt über der gegebenen Zahl liegt. Dann berechnest du den Abstand mit einer Subtraktion.",
+    "help2": "<div class='math-line calculation-steps'><span>47 → nächste Stufenzahl: 100 → 100 − 47</span><span>286 → nächste Stufenzahl: 1000 → 1000 − 286</span><span>995 → nächste Stufenzahl: 1000 → 1000 − 995</span></div>",
+    "solution": "a) 53 &nbsp;&nbsp; b) 714 &nbsp;&nbsp; c) 5",
+    "model": "<div class='calculation-steps'><span>a) 100 − 47 = <strong>53</strong></span><span>b) 1000 − 286 = <strong>714</strong></span><span>c) 1000 − 995 = <strong>5</strong></span></div><br>Kontrolle: Addiere die gefundene Zahl zur Ausgangszahl. Das Ergebnis muss die nächste Stufenzahl sein."
+  },
+  "add-5-links": {
+    "title": "S. 57 Nr. 5 links – Drei Summanden",
+    "label": "Beispielaufgabe",
+    "prompt": "Addiere schriftlich: <strong>2746 + 3152 + 4021</strong>",
+    "help1": "Schreibe alle drei Zahlen <strong>stellengerecht</strong> untereinander. Einer stehen unter Einern, Zehner unter Zehnern und so weiter.",
+    "help2": "Beginne rechts bei den Einern:<div class='math-line'>6 + 2 + 1 = 9</div>Rechne danach Spalte für Spalte nach links. Vergiss mögliche Überträge nicht.",
+    "solution": "9919",
+    "model": "<pre class='calculation'>  2746\n  3152\n+ 4021\n------\n  9919</pre><strong>Einer:</strong> 6 + 2 + 1 = 9.<br><strong>Zehner:</strong> 4 + 5 + 2 = 11. Schreibe 1, übertrage 1.<br><strong>Hunderter:</strong> 7 + 1 + 0 + 1 = 9.<br><strong>Tausender:</strong> 2 + 3 + 4 = 9."
+  },
+  "add-4-rechts": {
+    "title": "S. 57 Nr. 4 rechts – Zahlen untereinanderschreiben",
+    "label": "Beispielaufgabe",
+    "prompt": "Schreibe stellengerecht untereinander und berechne: <strong>527 + 4386 + 29&nbsp;145</strong>",
+    "help1": "Richte die Zahlen an der <strong>Einerstelle</strong> aus. Die kürzeren Zahlen beginnen weiter rechts. Freie Stellen zählen wie 0.",
+    "help2": "<pre class='calculation'>    527\n   4386\n+ 29145\n-------</pre>Beginne nun bei den Einern und beachte jeden Übertrag.",
+    "solution": "34&nbsp;058",
+    "model": "<pre class='calculation'>    527\n   4386\n+ 29145\n-------\n  34058</pre>Die Zahlen werden rechtsbündig untereinander geschrieben. Anschließend rechnest du von rechts nach links."
+  },
+  "add-10a-links": {
+    "title": "S. 58 Nr. 10a links – Text in eine Rechnung übersetzen",
+    "label": "Beispielaufgabe",
+    "prompt": "Was erhältst du, wenn du <strong>378 und 245 addierst</strong>?",
+    "help1": "Das Wort <strong>addierst</strong> zeigt dir die Rechenart. Schreibe zuerst die Aufgabe als Rechnung auf.",
+    "help2": "<div class='math-line'>378 + 245</div>Du kannst schriftlich addieren oder die zweite Zahl in 200 + 40 + 5 zerlegen.",
+    "solution": "623",
+    "model": "<div class='math-line calculation-steps'><span>378 + 245</span><span>= 378 + 200 + 40 + 5</span><span>= 578 + 40 + 5</span><span>= <strong>623</strong></span></div>"
+  },
+  "add-8-rechts": {
+    "title": "S. 58 Nr. 8 rechts – Überschlagen und genau addieren",
+    "label": "Beispielaufgabe",
+    "prompt": "Vergleiche die Zuschauerzahlen zweier Spieltage:<div class='table-wrap'><table class='data-table'><thead><tr><th>1. Spieltag</th><th>2. Spieltag</th></tr></thead><tbody><tr><td>18&nbsp;640</td><td>19&nbsp;230</td></tr><tr><td>15&nbsp;980</td><td>16&nbsp;750</td></tr><tr><td>20&nbsp;410</td><td>19&nbsp;860</td></tr><tr><td>17&nbsp;270</td><td>18&nbsp;110</td></tr></tbody></table></div><div class='problem-list'><div><strong>a)</strong> Überschlage auf Hunderter.</div><div><strong>b)</strong> Überschlage auf Tausender.</div><div><strong>c)</strong> Rechne genau. An welchem Spieltag kamen mehr Zuschauer?</div></div>",
+    "help1": "Runde jede Zahl zuerst auf die verlangte Stelle und addiere dann die gerundeten Zahlen. Beim genauen Ergebnis addierst du die vier ursprünglichen Werte jeder Spalte.",
+    "help2": "Beispiel für das Runden:<div class='math-line calculation-steps'><span>18&nbsp;640 ≈ 18&nbsp;600 (auf Hunderter)</span><span>18&nbsp;640 ≈ 19&nbsp;000 (auf Tausender)</span></div>",
+    "solution": "1. Spieltag: 72&nbsp;300 &nbsp;&nbsp; 2. Spieltag: 73&nbsp;950 → am 2. Spieltag 1&nbsp;650 mehr",
+    "model": "<strong>Genau gerechnet:</strong><div class='math-line calculation-steps'><span>1. Spieltag: 18&nbsp;640 + 15&nbsp;980 + 20&nbsp;410 + 17&nbsp;270 = <strong>72&nbsp;300</strong></span><span>2. Spieltag: 19&nbsp;230 + 16&nbsp;750 + 19&nbsp;860 + 18&nbsp;110 = <strong>73&nbsp;950</strong></span><span>73&nbsp;950 − 72&nbsp;300 = <strong>1&nbsp;650</strong></span></div>Der zweite Spieltag hatte mehr Zuschauer. Der Überschlag sollte bereits zu derselben Vermutung führen."
+  },
+  "sub-3-rechts": {
+    "title": "S. 61 Nr. 3 rechts – Schriftlich subtrahieren",
+    "label": "Beispielaufgabe",
+    "prompt": "Subtrahiere:<div class='problem-list two-columns'><div><strong>a)</strong> 6847 − 526</div><div><strong>b)</strong> 9204 − 3789</div><div><strong>c)</strong> 15&nbsp;000 − 1500</div><div><strong>d)</strong> 12&nbsp;008 − 1208</div></div>",
+    "help1": "Schreibe die Zahlen stellengerecht untereinander und beginne rechts. Wenn die obere Ziffer kleiner ist, musst du aus der linken Stelle entbündeln.",
+    "help2": "Achte besonders auf Nullen. Beim Entbündeln über eine 0 hinweg wird links eine Einheit entnommen und über die Zwischenstellen weitergegeben.",
+    "solution": "a) 6321 &nbsp; b) 5415 &nbsp; c) 13&nbsp;500 &nbsp; d) 10&nbsp;800",
+    "model": "<div class='calculation-steps'><span>a) 6847 − 526 = <strong>6321</strong></span><span>b) 9204 − 3789 = <strong>5415</strong></span><span>c) 15&nbsp;000 − 1500 = <strong>13&nbsp;500</strong></span><span>d) 12&nbsp;008 − 1208 = <strong>10&nbsp;800</strong></span></div><br>Kontrolliere ein Ergebnis mit der Gegenaufgabe: Differenz + Subtrahend = Minuend."
+  },
+  "sub-5-links": {
+    "title": "S. 61 Nr. 5 links – Fehlende Zahlen im Rechennetz",
+    "label": "Beispielaufgabe",
+    "prompt": "Berechne die fehlenden Zahlen. Folge jeweils dem Pfeil und ziehe die angegebene Zahl ab.<div class='network' aria-label='Rechennetz'><div class='network-row'><span class='number-box given'>120</span><span class='arrow'>−30 →</span><span class='number-box'>□</span><span class='arrow'>−20 →</span><span class='number-box'>□</span></div><div class='network-row'><span class='down'>↓ −40</span><span class='down'>↓ −20</span><span class='down'>↓ −15</span></div><div class='network-row'><span class='number-box'>□</span><span class='arrow'>−10 →</span><span class='number-box'>□</span><span class='arrow'>−15 →</span><span class='number-box'>□</span></div></div>",
+    "help1": "Beginne bei einer bereits gegebenen Zahl und arbeite Pfeil für Pfeil weiter. Schreibe jedes Zwischenergebnis sofort in das nächste Kästchen.",
+    "help2": "Oben links startest du mit 120:<div class='math-line calculation-steps'><span>120 − 30 = ___</span><span>120 − 40 = ___</span></div>Kontrolliere ein mittleres Kästchen über zwei verschiedene Wege.",
+    "solution": "Oben: 120 → 90 → 70 &nbsp;&nbsp; Unten: 80 → 70 → 55",
+    "model": "<div class='calculation-steps'><span>120 − 30 = <strong>90</strong></span><span>90 − 20 = <strong>70</strong></span><span>120 − 40 = <strong>80</strong></span><span>80 − 10 = <strong>70</strong></span><span>70 − 15 = <strong>55</strong></span></div><br>Das mittlere Kästchen ergibt sowohl von oben als auch von links 70. So kannst du das Rechennetz kontrollieren."
+  },
+  "sub-8-links": {
+    "title": "S. 62 Nr. 8 links – Entwicklung der Geburtenzahlen",
+    "label": "Originalaufgabe aus dem Buch",
+    "prompt": "Die Grafik zeigt die Entwicklung der Geburtenzahlen in der <strong>Bundesrepublik Deutschland</strong> für die Jahre 2008 bis 2012.<div class='exact-chart-wrap'><div class='exact-chart-title'>▲ Geburten</div><div class='exact-chart'><div class='y-axis'><span>700000</span><span>600000</span><span>500000</span><span>400000</span><span>300000</span><span>200000</span><span>100000</span><span>0</span></div><div class='plot-area'><div class='grid-lines'></div><div class='exact-bar-item'><div class='exact-bar' style='height:97.50%'><span>682514</span></div><div class='exact-year'>2008</div></div><div class='exact-bar-item'><div class='exact-bar' style='height:95.02%'><span>665126</span></div><div class='exact-year'>2009</div></div><div class='exact-bar-item'><div class='exact-bar' style='height:96.85%'><span>677947</span></div><div class='exact-year'>2010</div></div><div class='exact-bar-item'><div class='exact-bar' style='height:94.67%'><span>662685</span></div><div class='exact-year'>2011</div></div><div class='exact-bar-item'><div class='exact-bar' style='height:96.22%'><span>673544</span></div><div class='exact-year'>2012</div></div><div class='year-label'>Jahr</div></div></div></div><div class='problem-list exact-book-questions'><div><strong>a)</strong> Wie groß war der Anstieg von 2011 nach 2012?</div><div><strong>b)</strong> Berechne die Abnahme von 2008 nach 2009.</div><div><strong>c)</strong> Gib von Jahr zu Jahr an, ob die Zahlen zu- oder abgenommen haben.</div><div><strong>d)</strong> Berechne die jeweilige Änderung in den einzelnen Jahren.</div><div><strong>e)</strong> In welchem Jahr war der Anstieg am größten, in welchem die Abnahme?</div></div>",
+    "help1": "Vergleiche immer zwei aufeinanderfolgende Jahre. Ist die spätere Zahl größer, handelt es sich um einen <strong>Anstieg</strong>. Ist sie kleiner, handelt es sich um eine <strong>Abnahme</strong>.",
+    "help2": "Berechne die Größe der Veränderung jeweils mit der größeren Zahl minus der kleineren Zahl.<div class='math-line calculation-steps'><span>2011 → 2012:</span><span>673&nbsp;544 − 662&nbsp;685</span><span>= ___</span></div>",
+    "solution": "a) 10&nbsp;859 &nbsp;&nbsp; b) 17&nbsp;388<br>c/d) 2008→2009: −17&nbsp;388; 2009→2010: +12&nbsp;821; 2010→2011: −15&nbsp;262; 2011→2012: +10&nbsp;859<br>e) Größter Anstieg: 2009→2010; größte Abnahme: 2008→2009",
+    "model": "<strong>a) Anstieg von 2011 nach 2012:</strong><div class='math-line calculation-steps'><span>673&nbsp;544 − 662&nbsp;685</span><span>= <strong>10&nbsp;859</strong></span></div><strong>b) Abnahme von 2008 nach 2009:</strong><div class='math-line calculation-steps'><span>682&nbsp;514 − 665&nbsp;126</span><span>= <strong>17&nbsp;388</strong></span></div><strong>c) und d) Veränderungen von Jahr zu Jahr:</strong><div class='math-line calculation-steps'><span>2008 → 2009: Abnahme</span><span>682&nbsp;514 − 665&nbsp;126</span><span>= <strong>17&nbsp;388</strong></span><span>&nbsp;</span><span>2009 → 2010: Anstieg</span><span>677&nbsp;947 − 665&nbsp;126</span><span>= <strong>12&nbsp;821</strong></span><span>&nbsp;</span><span>2010 → 2011: Abnahme</span><span>677&nbsp;947 − 662&nbsp;685</span><span>= <strong>15&nbsp;262</strong></span><span>&nbsp;</span><span>2011 → 2012: Anstieg</span><span>673&nbsp;544 − 662&nbsp;685</span><span>= <strong>10&nbsp;859</strong></span></div><strong>e)</strong> Der größte Anstieg war von <strong>2009 nach 2010</strong>. Die größte Abnahme war von <strong>2008 nach 2009</strong>."
+  },
+  "klammer-regeln": {
+    "title": "S. 64 – Blauen Kasten bis Beispiel d) lesen",
+    "label": "Merkkasten",
+    "prompt": "<div class='rule-box'><strong>Klammerregeln</strong><br>1. Steht eine Klammer in einem Rechenausdruck, wird sie zuerst berechnet.<br>2. Steht in einer Klammer noch eine Klammer, wird die innere Klammer zuerst berechnet.<br>3. Ohne Klammer rechnest du bei Plus und Minus von links nach rechts.</div><div class='problem-list'><div>a) 24 − 9 + 6</div><div>b) 24 − (9 + 6)</div><div>c) 24 − (15 − 6)</div><div>d) 20 − (12 − (5 − 2))</div></div>",
+    "help1": "Merksatz: <strong>Klammern zuerst!</strong> Bei mehreren Klammern arbeitest du von innen nach außen.",
+    "help2": "Bei d) ist <strong>(5 − 2)</strong> die innere Klammer. Erst wenn sie berechnet ist, darfst du die äußere Klammer weiterrechnen.",
+    "solution": "a) 21 &nbsp;&nbsp; b) 9 &nbsp;&nbsp; c) 15 &nbsp;&nbsp; d) 11",
+    "model": "<div class='math-line calculation-steps'><span>a) 24 − 9 + 6</span><span>= 15 + 6</span><span>= <strong>21</strong></span></div><div class='math-line calculation-steps'><span>b) 24 − (9 + 6)</span><span>= 24 − 15</span><span>= <strong>9</strong></span></div><div class='math-line calculation-steps'><span>c) 24 − (15 − 6)</span><span>= 24 − 9</span><span>= <strong>15</strong></span></div><div class='math-line calculation-steps'><span>d) 20 − (12 − (5 − 2))</span><span>= 20 − (12 − 3)</span><span>= 20 − 9</span><span>= <strong>11</strong></span></div>"
+  },
+  "klammer-6-links": {
+    "title": "S. 65 Nr. 6 links – Innere und äußere Klammern",
+    "label": "Beispielaufgabe",
+    "prompt": "Berechne: <strong>80 − (35 + (18 − 7) − 6)</strong>",
+    "help1": "Markiere zuerst die <strong>innere Klammer</strong>. Diese wird vor der äußeren Klammer berechnet.",
+    "help2": "<div class='math-line calculation-steps'><span>Innere Klammer: 18 − 7 = ___</span><span>Äußere Klammer: 35 + ___ − 6 = ___</span></div>",
+    "solution": "40",
+    "model": "<div class='math-line calculation-steps'><span>80 − (35 + (18 − 7) − 6)</span><span>= 80 − (35 + 11 − 6)</span><span>= 80 − 40</span><span>= <strong>40</strong></span></div>Die Reihenfolge lautet: innere Klammer → äußere Klammer → restliche Rechnung."
+  },
+  "klammer-5-rechts": {
+    "title": "S. 65 Nr. 5 rechts – Klammern unterschiedlich setzen",
+    "label": "Beispielaufgabe",
+    "prompt": "Setze in den Ausdruck <strong>120 − 40 + 30 − 20 + 10 − 5</strong> auf drei verschiedene Arten genau eine Klammer und berechne.",
+    "help1": "Eine Klammer darf einen zusammenhängenden Teil des Ausdrucks umfassen. Besonders hinter einem Minuszeichen kann die Klammer das Ergebnis stark verändern.",
+    "help2": "Mögliche Anfänge:<div class='math-line calculation-steps'><span>120 − (40 + 30) − 20 + 10 − 5</span><span>120 − (40 + 30 − 20) + 10 − 5</span><span>120 − 40 + (30 − 20 + 10) − 5</span></div>",
+    "solution": "Beispielergebnisse: 35, 75 und 95",
+    "model": "<div class='math-line calculation-steps'><span>120 − (40 + 30) − 20 + 10 − 5</span><span>= 120 − 70 − 20 + 10 − 5</span><span>= <strong>35</strong></span></div><div class='math-line calculation-steps'><span>120 − (40 + 30 − 20) + 10 − 5</span><span>= 120 − 50 + 10 − 5</span><span>= <strong>75</strong></span></div><div class='math-line calculation-steps'><span>120 − 40 + (30 − 20 + 10) − 5</span><span>= 120 − 40 + 20 − 5</span><span>= <strong>95</strong></span></div>"
+  },
+  "klammer-10-links": {
+    "title": "S. 66 Nr. 10 links – Eine Klammer setzen",
+    "label": "Beispielaufgabe",
+    "prompt": "Setze jeweils eine Klammer, damit die Rechnung stimmt:<div class='problem-list'><div><strong>a)</strong> 60 + 25 − 15 = 70</div><div><strong>b)</strong> 60 − 25 − 15 = 50</div><div><strong>c)</strong> 60 − 25 + 15 = 20</div><div><strong>d)</strong> 60 + 25 + 15 = 100</div></div>",
+    "help1": "Überlege zuerst, welche beiden Zahlen zusammen berechnet werden müssen. Setze dann die öffnende und die schließende Klammer um genau diesen Teil.",
+    "help2": "Bei b) muss aus 25 und 15 zuerst die Differenz 10 entstehen. Bei c) müssen 25 und 15 zuerst zur Summe 40 werden.",
+    "solution": "a) (60 + 25) − 15 &nbsp; b) 60 − (25 − 15) &nbsp; c) 60 − (25 + 15) &nbsp; d) 60 + (25 + 15)",
+    "model": "<div class='math-line calculation-steps'><span>a) (60 + 25) − 15</span><span>= 85 − 15</span><span>= <strong>70</strong></span></div><div class='math-line calculation-steps'><span>b) 60 − (25 − 15)</span><span>= 60 − 10</span><span>= <strong>50</strong></span></div><div class='math-line calculation-steps'><span>c) 60 − (25 + 15)</span><span>= 60 − 40</span><span>= <strong>20</strong></span></div><div class='math-line calculation-steps'><span>d) 60 + (25 + 15)</span><span>= 60 + 40</span><span>= <strong>100</strong></span></div>"
+  },
+  "gesetz-4-rechts": {
+    "title": "S. 68 Nr. 4 rechts – Vorteilhaft addieren",
+    "label": "Beispielaufgabe",
+    "prompt": "Berechne vorteilhaft:<div class='problem-list'><div><strong>a)</strong> 38 + 62 + 47 + 53</div><div><strong>b)</strong> 91 + 9 + 35 + 65 + 20</div><div><strong>c)</strong> 89 + 11 + 78 + 22 + 57 + 43</div></div>",
+    "help1": "Beim Addieren darfst du Summanden vertauschen und neu zusammenfassen. Suche Zahlenpaare, die 100 oder eine andere glatte Zahl ergeben.",
+    "help2": "<div class='math-line calculation-steps'><span>a) (38 + 62) + (47 + 53)</span><span>b) (91 + 9) + (35 + 65) + 20</span><span>c) (89 + 11) + (78 + 22) + (57 + 43)</span></div>",
+    "solution": "a) 200 &nbsp;&nbsp; b) 220 &nbsp;&nbsp; c) 300",
+    "model": "<div class='calculation-steps'><span>a) 100 + 100 = <strong>200</strong></span><span>b) 100 + 100 + 20 = <strong>220</strong></span><span>c) 100 + 100 + 100 = <strong>300</strong></span></div>Hier werden das Vertauschungs- und das Verbindungsgesetz genutzt."
+  },
+  "gesetz-5-rechts": {
+    "title": "S. 68 Nr. 5 rechts – Plus- und Minusglieder zusammenfassen",
+    "label": "Beispielaufgabe",
+    "prompt": "Fasse zuerst alle Plusglieder und alle Minusglieder zusammen:<div class='problem-list'><div><strong>a)</strong> 300 − 42 + 58 − 36 − 64 + 44</div><div><strong>b)</strong> 1000 − 998 + 77 − 66 + 55 − 44</div></div>",
+    "help1": "Das erste Zahlenglied zählt zur Plusgruppe. Schreibe anschließend eine Summe aus allen positiven Gliedern und eine Summe aus allen abzuziehenden Gliedern.",
+    "help2": "<div class='math-line calculation-steps'><span>a) (300 + 58 + 44) − (42 + 36 + 64)</span><span>b) (1000 + 77 + 55) − (998 + 66 + 44)</span></div>",
+    "solution": "a) 260 &nbsp;&nbsp; b) 24",
+    "model": "<div class='calculation-steps'><span>a) 402 − 142 = <strong>260</strong></span><span>b) 1132 − 1108 = <strong>24</strong></span></div><br>Achtung: Die Minuszeichen dürfen nicht einfach vertauscht werden. Du fasst die abzuziehenden Zahlen gemeinsam in einer Klammer zusammen."
+  }
+};
+
+    const pages = document.querySelectorAll(".page");
+    const menuButtons = document.querySelectorAll(".menu-button");
+    const taskButtons = document.querySelectorAll(".task-button");
+    const backButtons = document.querySelectorAll(".top-back-button");
+    const revealButtons = document.querySelectorAll(".reveal-button");
+
+    let currentPage = "startseite";
+    const navigationStack = [];
+
+    function activatePage(pageId) {
+      pages.forEach((page) => page.classList.toggle("active", page.id === pageId));
+      currentPage = pageId;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function navigateTo(pageId) {
+      if (currentPage !== pageId) navigationStack.push(currentPage);
+      activatePage(pageId);
+    }
+
+    function goBack() {
+      const previousPage = navigationStack.pop() || "startseite";
+      activatePage(previousPage);
+    }
+
+    function closeAllHelpPanels() {
+      revealButtons.forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+        const panel = document.getElementById(button.dataset.panel);
+        if (panel) panel.classList.remove("open");
+      });
+    }
+
+    function openTask(taskId) {
+      const task = tasks[taskId];
+      if (!task) return;
+
+      document.getElementById("task-title").textContent = task.title;
+      document.getElementById("task-label").textContent = task.label || "Beispielaufgabe";
+      document.getElementById("task-prompt").innerHTML = task.prompt;
+      document.getElementById("help-1").innerHTML = task.help1;
+      document.getElementById("help-2").innerHTML = task.help2;
+      document.getElementById("solution").innerHTML = task.solution;
+      document.getElementById("model-solution").innerHTML = task.model;
+      closeAllHelpPanels();
+      navigateTo("aufgabe");
+    }
+
+    menuButtons.forEach((button) => {
+      button.addEventListener("click", () => navigateTo(button.dataset.target));
+    });
+
+    taskButtons.forEach((button) => {
+      button.addEventListener("click", () => openTask(button.dataset.task));
+    });
+
+    backButtons.forEach((button) => {
+      button.addEventListener("click", goBack);
+    });
+
+    revealButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const panel = document.getElementById(button.dataset.panel);
+        const isOpen = panel.classList.toggle("open");
+        button.setAttribute("aria-expanded", String(isOpen));
+      });
+    });
+  </script>
+</body>
+</html>
