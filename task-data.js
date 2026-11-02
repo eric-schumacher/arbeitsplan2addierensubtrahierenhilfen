@@ -1314,14 +1314,14 @@ window.taskHelpData = {
         "expression": "23 − 11 + 16",
         "kind": "brackets",
         "notationExpression": "23 − 11 + 16",
-        "strategy": "Klammern legen die Reihenfolge fest. Berechne zuerst die innere Klammer. Schreibe ihr Ergebnis in der nächsten Zeile genau unter diese Klammer und übernimm den gesamten Rest unverändert.",
+        "strategy": "Hier gibt es keine Klammer. Plus und Minus sind gleichrangig: Rechne von links nach rechts. Schreibe das Zwischenergebnis in die nächste Zeile unter die erste Rechnung und übernimm den Rest unverändert.",
         "start": "Beginne mit 23 − 11. Das Kästchen im Schreibschema steht für dein eigenes Zwischenergebnis. Alle anderen Zahlen und Zeichen schreibst du in derselben Zeile unverändert ab.",
         "partial": "Ein Teilschritt ist vorgerechnet: 23 − 11 = 12. Sein Ergebnis steht in der Zeile darunter genau unter dem ersetzten Ausdruck. Rechne von dort selbst weiter.",
         "steps": [
-          "Schreibe den Rechenausdruck ab und markiere die innerste Klammer.",
+          "Schreibe 23 − 11 + 16 ab. Markiere die erste Rechnung 23 − 11.",
           "Beginne mit 23 − 11. Das Kästchen im Schreibschema steht für dein eigenes Zwischenergebnis. Alle anderen Zahlen und Zeichen schreibst du in derselben Zeile unverändert ab.",
-          "Berechne als Nächstes die äußere oder die nächste Klammer. Schreibe das Ergebnis wieder genau darunter und übernimm den Rest unverändert.",
-          "Wenn keine Klammer übrig ist, rechne von links nach rechts weiter. Schreibe nur einen Rechenschritt pro Zeile."
+          "Rechne zuerst 23 − 11. Schreibe dein Zwischenergebnis in die nächste Zeile genau darunter und übernimm + 16 unverändert.",
+          "Addiere danach die 16. Das Endergebnis berechnest du selbst."
         ]
       },
       {
