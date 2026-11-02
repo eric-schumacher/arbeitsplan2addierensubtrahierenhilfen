@@ -12,7 +12,7 @@
     if(!groups.length&&tokens.length>=3)groups.push({start:0,end:2});
     let cells=tokens.map((text,i)=>({text,start:i,span:1}));
     const rows=[{cells:[{text:'',span:1},...cells]}];
-    const limit=mode==='original'?0:Math.min(mode==='partial'?1:Math.max(1,count),groups.length);
+    const limit=mode==='original'||mode==='setup'?0:Math.min(mode==='partial'?1:Math.max(1,count),groups.length);
     for(let j=0;j<limit;j++){
       const g=groups[j],inside=tokens.slice(g.start,g.end+1).filter(t=>t!=='('&&t!==')').join(' ');
       const text=mode==='partial'?String(valueOf(inside)):'□';
@@ -63,6 +63,8 @@
   function model(task,part,mode,stepIndex=1){
     const kind=part.kind||task.kind;
     if(kind==='add'||kind==='subtract')return columnModel(part.calculation||part.expression,kind,mode,Math.max(0,stepIndex-1));
+    if(mode==='setup'&&['laws','signed'].includes(kind))return expressionModel(part.expression,'original');
+    if(mode==='setup'&&kind==='freebrackets')return expressionModel(part.grouped.replace(/[()]/g,''),'original');
     if(['brackets','laws','signed','freebrackets'].includes(kind))return expressionModel(part.notationExpression||part.grouped||part.expression,mode,Math.max(1,stepIndex));
     if(kind==='placement')return expressionModel(mode==='partial'?part.trial:part.expression.split('=')[0],mode==='partial'?'partial':'original');
     return null;
