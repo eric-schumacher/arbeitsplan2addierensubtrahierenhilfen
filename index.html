@@ -721,7 +721,7 @@
     </section>
   </main>
 
-  <script src="task-data.js?v=20261102-ap2-2"></script>
+  <script src="task-data.js?v=20261102-textaufgaben-1"></script>
   <script src="task-notation.js?v=20261102-ap2-2"></script>
   <script>
     const tasks = window.taskHelpData;
@@ -779,7 +779,7 @@
       const container = document.getElementById("real-task-content");
       container.replaceChildren();
       const intro = document.createElement("p");
-      intro.textContent = "Arbeite in deinem Heft. Öffne einen Tipp nach dem anderen und rechne jeweils selbst weiter.";
+      intro.textContent = part.kind === "word" ? "Überlege zuerst: Was ist gesucht? Welche Angaben brauchst du? Wie hängen diese Zahlen zusammen? Öffne die Tipps nacheinander und bereite deinen eigenen Ansatz vor." : "Arbeite in deinem Heft. Öffne einen Tipp nach dem anderen und rechne jeweils selbst weiter.";
       const history = document.createElement("div");
       history.setAttribute("aria-live", "polite");
       const next = document.createElement("button");
@@ -802,7 +802,7 @@
           next.hidden = true;
           const finish = document.createElement("p");
           finish.className = "dialog-finished";
-          finish.textContent = "Jetzt bist du dran: Beende deine Rechnung im Heft und prüfe deine Rechnung selbst.";
+          finish.textContent = part.kind === "word" ? "Jetzt bist du dran: Formuliere deinen Rechenansatz oder Vergleich im Heft und beantworte die Frage selbst." : "Jetzt bist du dran: Beende deine Rechnung im Heft und prüfe deine Rechnung selbst.";
           history.append(finish);
         }
       }
@@ -819,6 +819,7 @@
       document.getElementById("help-1").textContent = part.strategy;
       document.getElementById("help-2").textContent = part.start;
       document.getElementById("help-3").textContent = part.partial;
+      document.querySelector('[data-panel="help-3"]').textContent = part.help3Label || "Hilfe 3 – Ein Teilschritt ist vorgerechnet";
       window.taskNotation.append(document.getElementById("help-1"), task, part, "setup");
       window.taskNotation.append(document.getElementById("help-2"), task, part, "hint");
       window.taskNotation.append(document.getElementById("help-3"), task, part, "partial");
