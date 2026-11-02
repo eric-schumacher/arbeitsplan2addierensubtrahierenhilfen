@@ -723,6 +723,7 @@
 
   <script src="task-data.js?v=20261102-tipps-2"></script>
   <script src="task-notation.js?v=20261102-tipps-2"></script>
+  <script src="solution-walkthrough.js?v=20261102-endloesung-1"></script>
   <script>
     const tasks = window.taskHelpData;
 
@@ -776,39 +777,7 @@
     }
 
     function renderGuidedHelp(task, part) {
-      const container = document.getElementById("real-task-content");
-      container.replaceChildren();
-      const intro = document.createElement("p");
-      intro.textContent = part.kind === "word" ? "Überlege zuerst: Was ist gesucht? Welche Angaben brauchst du? Wie hängen diese Zahlen zusammen? Öffne die Tipps nacheinander und bereite deinen eigenen Ansatz vor." : "Arbeite in deinem Heft. Öffne einen Tipp nach dem anderen und rechne jeweils selbst weiter.";
-      const history = document.createElement("div");
-      history.setAttribute("aria-live", "polite");
-      const next = document.createElement("button");
-      next.type = "button";
-      next.className = "answer-button next-hint";
-      let stepIndex = 0;
-      function appendStep() {
-        const step = document.createElement("section");
-        step.className = "dialog-step";
-        const progress = document.createElement("div");
-        progress.className = "dialog-progress";
-        progress.textContent = "Tipp " + (stepIndex + 1) + " von " + part.steps.length;
-        const text = document.createElement("p");
-        text.textContent = part.steps[stepIndex++];
-        step.append(progress, text);
-        window.taskNotation.append(step, task, part, stepIndex === 1 ? "setup" : "hint", stepIndex - 1);
-        history.append(step);
-        next.textContent = "Nächster Tipp";
-        if (stepIndex === part.steps.length) {
-          next.hidden = true;
-          const finish = document.createElement("p");
-          finish.className = "dialog-finished";
-          finish.textContent = part.kind === "word" ? "Jetzt bist du dran: Formuliere deinen Rechenansatz oder Vergleich im Heft und beantworte die Frage selbst." : "Jetzt bist du dran: Beende deine Rechnung im Heft und prüfe deine Rechnung selbst.";
-          history.append(finish);
-        }
-      }
-      next.addEventListener("click", appendStep);
-      container.append(intro, history, next);
-      appendStep();
+      window.solutionWalkthrough.render(document.getElementById("real-task-content"), task, part);
     }
 
     function showPart(task, index) {
