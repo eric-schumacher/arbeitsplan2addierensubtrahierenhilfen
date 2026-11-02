@@ -1,4 +1,3 @@
-// Gestufte Hilfen: Grundidee, konkreter Ansatz, weitere Unterstützung.
 window.taskHelpData = {
   "kopf-6": {
     "title": "S. 55 Nr. 6 links (orange) – Kopfrechnen",
@@ -1487,6 +1486,104 @@ window.taskHelpData = {
     ],
     "variant": "left",
     "contextHtml": ""
+  },
+  "klammer-6-rechts": {
+    "title": "S. 65 Nr. 6 rechts (grün) – Innere und äußere Klammern",
+    "kind": "brackets",
+    "variant": "right",
+    "contextHtml": "",
+    "parts": [
+      {
+        "label": "a) erste Zeile",
+        "expression": "45 + (27 − (12 + 3) + (13 + 5) + 1)",
+        "kind": "brackets",
+        "notationExpression": "45 + (27 − (12 + 3) + (13 + 5) + 1)",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 12 + 3 = □ und 13 + 5 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 12 + 3 = 15. Das Schreibschema setzt 15 genau unter diese innere Klammer. Die zweite innere Klammer 13 + 5 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 12 + 3. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 13 + 5 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      },
+      {
+        "label": "a) zweite Zeile",
+        "expression": "99 + (7 − (12 − 8) − (3 − 2) − 1)",
+        "kind": "brackets",
+        "notationExpression": "99 + (7 − (12 − 8) − (3 − 2) − 1)",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 12 − 8 = □ und 3 − 2 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 12 − 8 = 4. Das Schreibschema setzt 4 genau unter diese innere Klammer. Die zweite innere Klammer 3 − 2 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 12 − 8. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 3 − 2 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      },
+      {
+        "label": "a) dritte Zeile",
+        "expression": "25 − (17 − (2 + 3) + (7 + 2) + 1)",
+        "kind": "brackets",
+        "notationExpression": "25 − (17 − (2 + 3) + (7 + 2) + 1)",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 2 + 3 = □ und 7 + 2 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 2 + 3 = 5. Das Schreibschema setzt 5 genau unter diese innere Klammer. Die zweite innere Klammer 7 + 2 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 2 + 3. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 7 + 2 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      },
+      {
+        "label": "b) erste Zeile",
+        "expression": "200 + 36 − ((26 + 13) + (13 + 5) − 11)",
+        "kind": "brackets",
+        "notationExpression": "200 + 36 − ((26 + 13) + (13 + 5) − 11)",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 26 + 13 = □ und 13 + 5 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 26 + 13 = 39. Das Schreibschema setzt 39 genau unter diese innere Klammer. Die zweite innere Klammer 13 + 5 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 26 + 13. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 13 + 5 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      },
+      {
+        "label": "b) zweite Zeile",
+        "expression": "200 + ((36 − 26) + (13 + 13) + 5) + 11",
+        "kind": "brackets",
+        "notationExpression": "200 + ((36 − 26) + (13 + 13) + 5) + 11",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 36 − 26 = □ und 13 + 13 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 36 − 26 = 10. Das Schreibschema setzt 10 genau unter diese innere Klammer. Die zweite innere Klammer 13 + 13 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 36 − 26. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 13 + 13 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      },
+      {
+        "label": "b) dritte Zeile",
+        "expression": "200 − (36 − (26 − 13) + (13 − 5) + 11)",
+        "kind": "brackets",
+        "notationExpression": "200 − (36 − (26 − 13) + (13 − 5) + 11)",
+        "strategy": "Markiere die Klammern. Rechne bei verschachtelten Klammern zuerst innen. Die äußere Klammer wird erst berechnet, wenn die inneren Klammern ersetzt sind.",
+        "start": "Beginne mit den beiden inneren Rechnungen 26 − 13 = □ und 13 − 5 = □. Ersetze jede innere Klammer einzeln in der nächsten Zeile durch dein eigenes Ergebnis. Alle übrigen Zahlen, Zeichen und die äußere Klammer werden unverändert genau darunter übernommen. Berechne danach den verbleibenden Ausdruck in der äußeren Klammer von links nach rechts.",
+        "partial": "Ein Teilschritt ist vorgerechnet: 26 − 13 = 13. Das Schreibschema setzt 13 genau unter diese innere Klammer. Die zweite innere Klammer 13 − 5 berechnest du selbst; übernimm dabei den Rest unverändert.",
+        "steps": [
+          "Schreibe die Aufgabe ab und markiere die beiden inneren Klammern.",
+          "Berechne zuerst 26 − 13. Ersetze nur diese Klammer in der nächsten Zeile durch dein Ergebnis.",
+          "Berechne die zweite innere Klammer 13 − 5 und übernimm den übrigen Ausdruck unverändert.",
+          "Berechne die äußere Klammer von links nach rechts. Ersetze sie in der nächsten Zeile durch ihren Wert und führe die übrige Rechnung aus."
+        ]
+      }
+    ]
   },
   "klammer-5-rechts": {
     "title": "S. 65 Nr. 5 rechts (grün) – Klammern setzen",
